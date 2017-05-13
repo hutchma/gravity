@@ -1,12 +1,13 @@
-const NUM_BOUNCY_BALLS = 5;
-const OPACITY = 150;
-const GRAV = 0.3;   // Strength of gravity
-const WIND_X = 0.2; // Horizontal strength of wind
-const WIND_Y = 0;   // Vertical strength of wind
-const X_MULT = 1;   // Velocity multiplier when ball bounces off sides
-const Y_MULT = 1;   // Velocity multiplier when ball bounces off top or bottom
-const MIN = 1;      // Minimum bouncy ball mass
-const MAX = 3;      // Maximum bouncy ball mass
+// Configuration
+var NUM_BOUNCY_BALLS = 5;
+var OPACITY = 150;
+var GRAV = 0.3;   // Strength of gravity
+var WIND_X = 0.2; // Horizontal strength of wind
+var WIND_Y = 0;   // Vertical strength of wind
+var X_MULT = 1;   // Velocity multiplier when ball bounces off sides
+var Y_MULT = 1;   // Velocity multiplier when ball bounces off top or bottom
+var MIN = 1;      // Minimum bouncy ball mass
+var MAX = 3;      // Maximum bouncy ball mass
 
 
 var movers = [];
@@ -25,6 +26,10 @@ function setup() {
 function draw() {
   fill(242, 241, 239, OPACITY);
   rect(0, 0, width, height);
+  
+  fill(34, 49, 63);
+  textSize(20);
+  text('Press the mouse to make the wind blow', 30, 40);
   
   for (var i = 0; i < movers.length; i++) {
     var gravity = new p5.Vector(0, GRAV);

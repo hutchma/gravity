@@ -1,12 +1,12 @@
-// Config
-const NUM_PLANETS = 200;
-const NUM_STARS = 1;
-const OPACITY = 150;
-const GRAVITY_CONSTANT = 1;
-const PMIN = 0.1;   // Minimum planet mass
-const PMAX = 2;     // Maximum planet mass
-const SMIN = 20;    // Minimum star mass
-const SMAX = 80;    // Maximum star mass
+// Configuration
+var NUM_PLANETS = 200;
+var NUM_STARS = 1;
+var OPACITY = 150;
+var GRAVITY_CONSTANT = 1;
+var PMIN = 0.1;   // Minimum planet mass
+var PMAX = 2;     // Maximum planet mass
+var SMIN = 20;    // Minimum star mass
+var SMAX = 80;    // Maximum star mass
 
 
 var movers = [];
