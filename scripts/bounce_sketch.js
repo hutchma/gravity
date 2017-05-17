@@ -15,7 +15,7 @@ var movers = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(242, 241, 239);
+  background(255);
   
   for (var i = 0; i < NUM_BOUNCY_BALLS; i++) {
     var b = new BouncyBall(random(width), random(height), random(MIN, MAX));
@@ -24,10 +24,9 @@ function setup() {
 }
 
 function draw() {
-  fill(242, 241, 239, OPACITY);
-  rect(0, 0, width, height);
+  background(255);
   
-  fill(34, 49, 63);
+  fill(0);
   textSize(20);
   text('Press the mouse to make the wind blow', 30, 40);
   

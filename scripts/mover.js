@@ -5,24 +5,26 @@ class Mover {
     this.acceleration = new p5.Vector(0, 0);
     this.mass = mass;
     this.color = {
-      r: random(63, 256),
-      g: random(63, 256),
-      b: random(63, 256)
+      r: random(256),
+      g: random(256),
+      b: random(256)
     };
     this.diameter = 0;
   }
   
+  // Displays mover on the screen
   display() {
     fill(this.color.r, this.color.g, this.color.b);
-    noStroke();
     ellipse(this.position.x, this.position.y, this.diameter, this.diameter);
   }
   
+  // Behavior for contact with edge of screen
   // Override
   checkEdges() {
     ;
   }
   
+  // Behavior each tick
   // TODO: Velocity Verlet integration
   update() {
     this.velocity.add(this.acceleration);
@@ -30,23 +32,37 @@ class Mover {
     this.acceleration.mult(0);
   }
   
+  // Return a new mover that is a combination of this and another mover
+  // TODO
+  absorb() {
+    ;
+  }
+  
   // Newton's 2nd Law (F = ma)
-  applyForce(force) {
-    var a = p5.Vector.div(force, this.mass);
+  applyForce(f) {
+    var a = p5.Vector.div(f, this.mass);
     this.acceleration.add(a);
   }
   
   // Returns gravitational force on other mover
-  // F = (G * m1 * m2) / (r * r)
+  // F = (G * m1 * m2) / r^2
   attract(m) {
-    var force = p5.Vector.sub(this.position, m.position);
-    var r = force.mag();
-    r = constrain(r, 5, 25);
-    force.normalize();
     
-    var strength = (GRAVITY_CONSTANT*this.mass*m.mass) / (r*r);
-    force.mult(strength);
+    // Direction of the force
+    var f = p5.Vector.sub(this.position, m.position);
+    var r = f.mag();
+    f.normalize();
+    r = constrain(r, CONFIG.rmin, CONFIG.rmax);
     
-    return force;
+    var magnitude = (CONFIG.grav * this.mass * m.mass) / (r * r);
+    f.mult(magnitude);
+    
+    return f;
+  }
+  
+  // Checks if a mover is inside this mover
+  // TODO
+  contains(m) {
+    ;
   }
 }

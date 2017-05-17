@@ -58,3 +58,8 @@ main h2 {
 main p {
   color: #abb7b7;
 }
+
+p {
+  margin: 0;
+  padding: 0;
+}

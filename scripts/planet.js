@@ -1,6 +1,6 @@
 class Planet extends Mover {
   constructor(x, y, mass) {
     super(x, y, mass);
-    this.diameter = mass * 20;
+    this.diameter = this.mass * 20;
   }
 }
