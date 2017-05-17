@@ -47,7 +47,6 @@ class Mover {
   // Returns gravitational force on other mover
   // F = (G * m1 * m2) / r^2
   attract(m) {
-    
     // Direction of the force
     var f = p5.Vector.sub(this.position, m.position);
     var r = f.mag();
