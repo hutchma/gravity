@@ -25,7 +25,6 @@ class Mover {
   }
   
   // Movement each frame
-  // TODO: Velocity Verlet integration
   update() {
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
