@@ -74,25 +74,3 @@ position += timestep * (velocity + timestep * acceleration / 2);
 newAcceleration = force(time, position) / mass;
 velocity += timestep * (acceleration + newAcceleration) / 2;
 */
-
-
-//*******************************************************************
-/*
-  
-  // Returns gravitational force on other mover
-  // F = (G * m1 * m2) / r^2
-  attract(m) {
-    
-    // Direction of the force
-    var f = p5.Vector.sub(this.position, m.position);
-    var r = f.mag();
-    f.normalize();
-    r = constrain(r, CONFIG.rmin, CONFIG.rmax);
-    
-    var magnitude = (CONFIG.grav * this.mass * m.mass) / (r * r);
-    f.mult(magnitude);
-    
-    return f;
-  }
-}
-*/
