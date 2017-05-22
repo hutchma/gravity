@@ -1,48 +1,108 @@
-// Configuration
-var NUM_BOUNCY_BALLS = 5;
-var OPACITY = 150;
-var GRAV = 0.3;   // Strength of gravity
-var WIND_X = 0.2; // Horizontal strength of wind
-var WIND_Y = 0;   // Vertical strength of wind
-var X_MULT = 1;   // Velocity multiplier when ball bounces off sides
-var Y_MULT = 1;   // Velocity multiplier when ball bounces off top or bottom
-var MIN = 1;      // Minimum bouncy ball mass
-var MAX = 3;      // Maximum bouncy ball mass
+const CONFIG = {
+  gravAcc: 0.3,       // Gravitational acceleration
+  maxMass: 3,         // Max bouncy ball mass
+  minMass: 1,         // Min bouncy ball mass
+  numBouncyBalls: 5,  // Number of bouncy balls to generate
+  windX: 0.2,         // Force of wind in the y-direction
+  windY: 0            // Force of wind in the x-direction
+};
+const INPUTS = {}, TEXT = {};
+var movers;
+var visible = false;
 
 
-var movers = [];
+function createInputs() {
+  Object.keys(CONFIG).map(function(key, i) {
+    INPUTS[key] = createInput(CONFIG[key], 'number').style('width', '40px').hide();
+    TEXT[key] = createP(key).hide();
+  });
+  
+  Object.keys(INPUTS).map(function(key, i) {
+    INPUTS[key].position(10, 35 + 25*i);
+  })
+  
+  Object.keys(TEXT).map(function(key, i) {
+    TEXT[key].position(60, 35 + 25*i);
+  })
+}
 
+function createMovers() {
+  movers = [];
+  
+  for (var i = 0; i < CONFIG.numBouncyBalls; i++) {
+    let mass = random(CONFIG.minMass, CONFIG.maxMass);
+    let b = new BouncyBall(random(width), random(height), mass);
+    movers.push(b);
+  }
+}
+
+
+// p5.js built-in functions
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(255);
-  
-  for (var i = 0; i < NUM_BOUNCY_BALLS; i++) {
-    var b = new BouncyBall(random(width), random(height), random(MIN, MAX));
-    movers.push(b);
-  }
+  createInputs();
+  createMovers();
 }
 
 function draw() {
   background(255);
   
-  fill(0);
-  textSize(20);
-  text('Press the mouse to make the wind blow', 30, 40);
-  
   for (var i = 0; i < movers.length; i++) {
-    var gravity = new p5.Vector(0, GRAV);
-    gravity.mult(movers[i].mass);
-    movers[i].applyForce(gravity);
+    // Gravity
+    let g = new p5.Vector(0, CONFIG.gravAcc);
+    g.mult(movers[i].mass);
+    movers[i].applyForce(g);
     
+    // Wind
     if (mouseIsPressed) {
-      var wind = new p5.Vector(WIND_X, WIND_Y);
-      movers[i].applyForce(wind);
+      let w = new p5.Vector(CONFIG.windX, CONFIG.windY);
+      movers[i].applyForce(w);
     }
     
     movers[i].update();
     movers[i].checkEdges();
     movers[i].display();
+  }
+  
+  // Draw text
+  fill(0);
+  textSize(20);
+  text('Press the mouse to make the wind blow', 10, 25);
+}
+
+// Press the spacebar to reset the simulation
+// Press the 'V' key to show/hide variables
+function keyPressed() {
+  // Spacebar pressed
+  if (keyCode === 32) {
+    // Updates configuration
+    Object.keys(INPUTS).map(function(key, i) {
+      CONFIG[key] = Number(INPUTS[key].value());
+    });
+    
+    createMovers();
+  }
+  
+  // 'V' key pressed
+  if (keyCode === 86) {
+    visible = !visible;
+    
+    if (visible === true) {
+      Object.keys(INPUTS).map(function(key, i) {
+        INPUTS[key].show();
+      })
+      Object.keys(TEXT).map(function(key, i) {
+        TEXT[key].show();
+      })
+    } else {
+      Object.keys(INPUTS).map(function(key, i) {
+        INPUTS[key].hide();
+      })
+      Object.keys(TEXT).map(function(key, i) {
+        TEXT[key].hide();
+      })
+    }
   }
 }
 

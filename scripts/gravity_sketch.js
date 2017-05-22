@@ -1,59 +1,55 @@
-// Configuration
 const CONFIG = {
-  num_p: 5,     // Number of planets
-  num_s: 1,     // Number of stars
-  grav: 1,      // Gravitational constant
-  rmin: 5,      // Minimum distance to constrain gravitational force to
-  rmax: 25,     // Maximum distance to constrain gravitational force to
-  pmin: 0.1,    // Minimum planet mass
-  pmax: 2,      // Maximum planet mass
-  smin: 20,     // Minimum star mass
-  smax: 80      // Maximum star mass
+  gravConst: 1,       // Gravitational constant
+  gravMaxDist: 25,    // Max distance to constrain gravitational force to
+  gravMinDist: 5,     // Min distance to constrain gravitational force to
+  numPlanets: 5,      // Number of planets to generate
+  numStars: 1,        // Number of stars to generate
+  planetMaxMass: 2,   // Max planet mass
+  planetMinMass: 0.5, // Min planet mass
+  starMaxMass: 80,    // Max star mass
+  starMinMass: 20     // Min star mass
 };
-
-const INPUTS = {};
+const INPUTS = {}, TEXT = {};
 var movers;
+var visible = false;
 
+
+function createInputs() {
+  Object.keys(CONFIG).map(function(key, i) {
+    INPUTS[key] = createInput(CONFIG[key], 'number').style('width', '40px').hide();
+    TEXT[key] = createP(key).hide();
+  });
+  
+  Object.keys(INPUTS).map(function(key, i) {
+    INPUTS[key].position(10, 10 + 25*i);
+  })
+  
+  Object.keys(TEXT).map(function(key, i) {
+    TEXT[key].position(60, 10 + 25*i);
+  })
+}
 
 function createMovers() {
   movers = [];
   
-  for (var i = 0; i < CONFIG.num_p; i++) {
-    let mass = random(CONFIG.pmin, CONFIG.pmax);
-    let p = new Planet(random(width), random(height), mass);
-    movers.push(p);
-  }
-  
-  for (var i = 0; i < CONFIG.num_s; i++) {
-    let mass = random(CONFIG.smin, CONFIG.smax);
+  for (var i = 0; i < CONFIG.numStars; i++) {
+    let mass = random(CONFIG.starMinMass, CONFIG.starMaxMass);
     let s = new Star(random(width), random(height), mass);
     movers.push(s);
   }
-}
-
-function createInputs() {
-  // Number of planets and stars
-  INPUTS.num_p = createInput(CONFIG.num_p, 'number');
-  INPUTS.num_s = createInput(CONFIG.num_s, 'number');
-  INPUTS.num_p.position(10, 10);
-  INPUTS.num_s.position(10, 35);
-  INPUTS.num_p.style('width', '40px');
-  INPUTS.num_s.style('width', '40px');
-  createP('Planets').position(60, 10);
-  createP('Stars').position(60, 35);
   
-  // Gravitational constant
-  INPUTS.grav = createInput(CONFIG.grav, 'number');
-  INPUTS.grav.position(width - 135, 10);
-  INPUTS.grav.style('width', '40px');
-  createP('Grav const').position(width - 80, 10);
+  for (var i = 0; i < CONFIG.numPlanets; i++) {
+    let mass = random(CONFIG.planetMinMass, CONFIG.planetMaxMass);
+    let p = new Planet(random(width), random(height), mass);
+    movers.push(p);
+  }
 }
 
+
+// p5.js built-in functions
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(255);
-  
   createInputs();
   createMovers();
 }
@@ -62,29 +58,55 @@ function draw() {
   background(255);
   
   for (var i = 0; i < movers.length; i++) {
+    // Gravitational attraction
     for (var j = 0; j < movers.length; j++) {
       if (i != j) {
-        var force = movers[j].attract(movers[i]);
-        movers[i].applyForce(force);
+        var f = movers[j].attract(movers[i]);
+        movers[i].applyForce(f);
       }
     }
+    
     movers[i].update();
+    movers[i].checkEdges();
     movers[i].display();
   }
 }
 
-// Spacebar resets the simulation
+// Press the spacebar to reset the simulation
+// Press the 'V' key to show/hide variables
 function keyPressed() {
   // Spacebar pressed
   if (keyCode === 32) {
+    // Updates configuration
     Object.keys(INPUTS).map(function(key, i) {
-      CONFIG[key] = INPUTS[key].value();
+      CONFIG[key] = Number(INPUTS[key].value());
     });
+    
     createMovers();
+  }
+  
+  // 'V' key pressed
+  if (keyCode === 86) {
+    visible = !visible;
+    
+    if (visible === true) {
+      Object.keys(INPUTS).map(function(key, i) {
+        INPUTS[key].show();
+      })
+      Object.keys(TEXT).map(function(key, i) {
+        TEXT[key].show();
+      })
+    } else {
+      Object.keys(INPUTS).map(function(key, i) {
+        INPUTS[key].hide();
+      })
+      Object.keys(TEXT).map(function(key, i) {
+        TEXT[key].hide();
+      })
+    }
   }
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  createInputs();
 }
