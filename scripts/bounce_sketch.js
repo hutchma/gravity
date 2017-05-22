@@ -72,6 +72,7 @@ function draw() {
 }
 
 // Press the spacebar to reset the simulation
+// Press the 'B' key to spawn a bouncy ball at mouse
 // Press the 'V' key to show/hide variables
 function keyPressed() {
   // Spacebar pressed
@@ -82,6 +83,13 @@ function keyPressed() {
     });
     
     createMovers();
+  }
+  
+  // 'B' key pressed
+  if (keyCode === 66) {
+    let mass = random(CONFIG.minMass, CONFIG.maxMass);
+    let b = new BouncyBall(mouseX, mouseY, mass);
+    movers.push(b);
   }
   
   // 'V' key pressed
