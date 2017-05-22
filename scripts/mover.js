@@ -53,16 +53,4 @@ class Mover {
     
     return f;
   }
-  
-  // Combines mover with this one
-  // TODO
-  combine(m) {
-    ;
-  }
-  
-  // Checks if mover is inside
-  // TODO
-  contains(m) {
-    ;
-  }
 }
