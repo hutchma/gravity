@@ -66,12 +66,3 @@ class Mover {
     ;
   }
 }
-
-
-/* VERLET INTEGRATION
-acceleration = force(time, position) / mass;
-time += timestep;
-position += timestep * (velocity + timestep * acceleration / 2);
-newAcceleration = force(time, position) / mass;
-velocity += timestep * (acceleration + newAcceleration) / 2;
-*/
