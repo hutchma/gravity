@@ -1,7 +1,5 @@
 const CONFIG = {
   gravConst: 1,       // Gravitational constant
-  gravMaxDist: 25,    // Max distance to constrain gravitational force to
-  gravMinDist: 5,     // Min distance to constrain gravitational force to
   numPlanets: 200,    // Number of planets to generate
   numStars: 1,        // Number of stars to generate
   planetMaxMass: 2,   // Max planet mass

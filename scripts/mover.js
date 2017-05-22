@@ -45,7 +45,7 @@ class Mover {
     var f = p5.Vector.sub(this.position, m.position);
     var r = f.mag();
     f.normalize();
-    r = constrain(r, CONFIG.gravMinDist, CONFIG.gravMaxDist);
+    r = constrain(r, 5, 25);  // Reduces erratic behavior
     
     // Magnitude of force
     var magnitude = (CONFIG.gravConst * this.mass * m.mass) / (r * r);
