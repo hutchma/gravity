@@ -12,19 +12,19 @@ class Mover {
     this.diameter = 0;
   }
   
-  // Displays mover on the screen
+  // Displays the mover on the screen
   display() {
     fill(this.color.r, this.color.g, this.color.b);
     ellipse(this.position.x, this.position.y, this.diameter, this.diameter);
   }
   
-  // Behavior for contact with edge of screen
+  // Behavior for contact with edges of the screen
   // Override
   checkEdges() {
     ;
   }
   
-  // Behavior each tick
+  // Movement each frame
   // TODO: Velocity Verlet integration
   update() {
     this.velocity.add(this.acceleration);
@@ -32,17 +32,52 @@ class Mover {
     this.acceleration.mult(0);
   }
   
-  // Return a new mover that is a combination of this and another mover
-  // TODO
-  absorb() {
-    ;
-  }
-  
   // Newton's 2nd Law (F = ma)
   applyForce(f) {
     var a = p5.Vector.div(f, this.mass);
     this.acceleration.add(a);
   }
+  
+  // Returns the gravitational force on other mover
+  // F = (G * m1 * m2) / r^2
+  attract(m) {
+    // Direction of force
+    var f = p5.Vector.sub(this.position, m.position);
+    var r = f.mag();
+    f.normalize();
+    r = constrain(r, CONFIG.gravMinDist, CONFIG.gravMaxDist);
+    
+    var magnitude = (CONFIG.gravConst * this.mass * m.mass) / (r * r);
+    f.mult(magnitude);
+    
+    return f;
+  }
+  
+  // Combines mover with this one
+  // TODO
+  combine(m) {
+    ;
+  }
+  
+  // Checks if mover is inside
+  // TODO
+  contains(m) {
+    ;
+  }
+}
+
+
+/* VERLET INTEGRATION
+acceleration = force(time, position) / mass;
+time += timestep;
+position += timestep * (velocity + timestep * acceleration / 2);
+newAcceleration = force(time, position) / mass;
+velocity += timestep * (acceleration + newAcceleration) / 2;
+*/
+
+
+//*******************************************************************
+/*
   
   // Returns gravitational force on other mover
   // F = (G * m1 * m2) / r^2
@@ -59,10 +94,5 @@ class Mover {
     
     return f;
   }
-  
-  // Checks if a mover is inside this mover
-  // TODO
-  contains(m) {
-    ;
-  }
 }
+*/
