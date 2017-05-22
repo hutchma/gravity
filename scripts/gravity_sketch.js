@@ -64,8 +64,6 @@ function draw() {
       }
     }
     
-    console.log(movers[0].contains(movers[i]));
-    
     movers[i].update();
     movers[i].checkEdges();
     movers[i].display();
