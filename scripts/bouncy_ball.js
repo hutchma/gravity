@@ -1,8 +1,4 @@
 class BouncyBall extends Mover {
-  constructor(x, y, mass) {
-    super(x, y, mass, 20);
-  }
-  
   checkEdges() {
     if (this.position.x > width) {
       this.position.x = width;

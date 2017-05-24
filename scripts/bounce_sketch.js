@@ -7,8 +7,8 @@ const CONFIG = {
   windY: 0            // Force of wind in the x-direction
 };
 const INPUTS = {}, TEXT = {};
-var movers;
-var visible = false;
+var movers,
+    visible = false;
 
 
 function createInputs() {
@@ -31,7 +31,7 @@ function createMovers() {
   
   for (var i = 0; i < CONFIG.numBouncyBalls; i++) {
     let mass = random(CONFIG.minMass, CONFIG.maxMass);
-    let b = new BouncyBall(random(width), random(height), mass);
+    let b = new BouncyBall(random(width), random(height), mass, mass * 20);
     movers.push(b);
   }
 }
