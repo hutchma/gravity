@@ -1,6 +1,5 @@
 html, body, #container {
   margin: 0;
-  overflow: hidden;
 }
 
 #container {
@@ -41,25 +40,57 @@ nav ul li a:hover {
   text-shadow: 1px 1px 0px #191d1e;
 }
 
-#center {
-  flex: 1;
-}
-
 main {
+  flex: 1;
   margin: 0 auto;
-  text-align: center;
   width: 60%;
 }
 
+main a, main a:visited {
+  color: #26a65b;
+  font-weight: bold;
+}
+
 main h2 {
+  text-align: center;
   color: #f62459;
 }
 
-main p {
+main p, table {
   color: #abb7b7;
 }
 
-p {
-  margin: 0;
+strong {
+  color: #eb9532;
+  font-weight: bolder;
+}
+
+table {
+  margin: 0 auto;
+}
+
+td, th {
+  border: 1px solid #6c7a89;
+  padding: 0.5rem;
+}
+
+td {
+  text-align: left;
+}
+
+th {
+  color: #26a65b;
+}
+
+.center {
+  text-align: center;
+}
+
+footer {
+  margin-top: 60px;
+}
+
+footer p {
+  margin: 10px auto;
   padding: 0;
 }
