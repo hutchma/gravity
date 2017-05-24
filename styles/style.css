@@ -2,6 +2,10 @@ html, body, #container {
   margin: 0;
 }
 
+#sketch {
+  overflow: hidden;
+}
+
 #container {
   background-color: #191d1e;
   display: flex;
