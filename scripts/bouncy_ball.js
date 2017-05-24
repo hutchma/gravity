@@ -1,7 +1,6 @@
 class BouncyBall extends Mover {
   constructor(x, y, mass) {
-    super(x, y, mass);
-    this.diameter = this.mass * 20;
+    super(x, y, mass, 20);
   }
   
   checkEdges() {
