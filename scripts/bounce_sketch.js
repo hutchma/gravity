@@ -93,7 +93,7 @@ function draw() {
 
 // Press the spacebar to reset the simulation
 // Press the 'B' key to spawn a bouncy ball at mouse
-// Press the 'R' key to randomize all velocities
+// Press the 'R' key to reset all velocities to 0
 // Press the 'V' key to show/hide variables
 function keyPressed() {
   // Spacebar pressed
@@ -116,7 +116,7 @@ function keyPressed() {
   // 'R' key pressed
   if (keyCode === 82) {
     for (var i = 0; i < movers.length; i++) {
-      movers[i].velocity = new p5.Vector(random(-2, 2), random(-2, 2));
+      movers[i].velocity.mult(0);
     }
   }
   

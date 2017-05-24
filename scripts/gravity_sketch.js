@@ -91,7 +91,7 @@ function draw() {
 
 // Press the spacebar to reset the simulation
 // Press the 'P' key to spawn a planet at mouse
-// Press the 'R' key to randomize all velocities
+// Press the 'R' key to reset all velocities to 0
 // Press the 'S' key to spawn a star at mouse
 // Press the 'V' key to show/hide variables
 function keyPressed() {
@@ -115,7 +115,7 @@ function keyPressed() {
   // 'R' key pressed
   if (keyCode === 82) {
     for (var i = 0; i < movers.length; i++) {
-      movers[i].velocity = new p5.Vector(random(-2, 2), random(-2, 2));
+      movers[i].velocity.mult(0);
     }
   }
   
