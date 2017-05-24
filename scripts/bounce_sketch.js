@@ -55,7 +55,8 @@ function draw() {
     movers[i].applyForce(g);
     
     // Wind
-    if (mouseIsPressed) {
+    // Press the 'W' key to make the wind blow
+    if (keyIsDown(87)) {
       let w = new p5.Vector(CONFIG.windX, CONFIG.windY);
       movers[i].applyForce(w);
     }
@@ -68,7 +69,7 @@ function draw() {
   // Draw text
   fill(0);
   textSize(20);
-  text('Press the mouse to make the wind blow', 10, 25);
+  text('Press W to make the wind blow', 10, 25);
 }
 
 // Press the spacebar to reset the simulation
