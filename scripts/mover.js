@@ -23,7 +23,6 @@ class Mover {
   checkEdges() {}
   
   // Update position and velocity of mover
-  // TODO: replace with Velocity Verlet integration
   update() {
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
@@ -51,5 +50,10 @@ class Mover {
     
     f.mult(magnitude);
     return f;
+  }
+  
+  selected() {
+    var mouse = new p5.Vector(mouseX, mouseY);
+    return abs(p5.Vector.sub(this.position, mouse).mag() < this.diameter / 2);
   }
 }

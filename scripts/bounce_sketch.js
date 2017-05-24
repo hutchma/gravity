@@ -8,6 +8,7 @@ const CONFIG = {
 };
 const INPUTS = {}, TEXT = {};
 var movers,
+    selectedMover = false,
     visible = false;
 
 
@@ -62,6 +63,24 @@ function draw() {
     }
     
     movers[i].update();
+    
+    // Select a mover
+    if (!selectedMover && mouseIsPressed && movers[i].selected()) {
+      selectedMover = movers[i];
+    } else {
+      if (!selectedMover) {
+        selectedMover = false;
+      }
+    }
+    
+    if (selectedMover) {
+      let mousePos = new p5.Vector(mouseX, mouseY);
+      let pmousePos = new p5.Vector(pmouseX, pmouseY);
+      let mouseVel = p5.Vector.sub(mousePos, pmousePos);
+      selectedMover.position = pmousePos;
+      selectedMover.velocity = mouseVel;
+    }
+    
     movers[i].checkEdges();
     movers[i].display();
   }
@@ -73,6 +92,8 @@ function draw() {
 }
 
 // Press the spacebar to reset the simulation
+// Press the 'B' key to spawn a bouncy ball at mouse
+// Press the 'R' key to randomize all velocities
 // Press the 'V' key to show/hide variables
 function keyPressed() {
   // Spacebar pressed
@@ -83,6 +104,20 @@ function keyPressed() {
     });
     
     createMovers();
+  }
+  
+  // 'B' key pressed
+  if (keyCode === 66) {
+    let mass = random(CONFIG.minMass, CONFIG.maxMass);
+    let b = new BouncyBall(mouseX, mouseY, mass);
+    movers.push(b);
+  }
+  
+  // 'R' key pressed
+  if (keyCode === 82) {
+    for (var i = 0; i < movers.length; i++) {
+      movers[i].velocity = new p5.Vector(random(-2, 2), random(-2, 2));
+    }
   }
   
   // 'V' key pressed
@@ -105,6 +140,10 @@ function keyPressed() {
       })
     }
   }
+}
+
+function mouseReleased() {
+  selectedMover = false;
 }
 
 function windowResized() {
