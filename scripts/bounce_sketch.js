@@ -95,6 +95,7 @@ function draw() {
 // Press the 'B' key to spawn a bouncy ball at mouse
 // Press the 'R' key to reset all velocities to 0
 // Press the 'V' key to show/hide variables
+// Press the 'X' key to update configuration
 function keyPressed() {
   // Spacebar pressed
   if (keyCode === 32) {
@@ -139,6 +140,14 @@ function keyPressed() {
         TEXT[key].hide();
       })
     }
+  }
+  
+  // 'X' key pressed
+  if (keyCode === 88) {
+    // Updates configuration
+    Object.keys(INPUTS).map(function(key, i) {
+      CONFIG[key] = Number(INPUTS[key].value());
+    });
   }
 }
 
