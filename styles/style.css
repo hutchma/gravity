@@ -60,9 +60,8 @@ main p, table {
   color: #abb7b7;
 }
 
-strong {
+.disclaimer {
   color: #eb9532;
-  font-weight: bolder;
 }
 
 table {
