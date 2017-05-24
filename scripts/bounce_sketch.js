@@ -7,8 +7,9 @@ const CONFIG = {
   windY: 0            // Force of wind in the x-direction
 };
 const INPUTS = {}, TEXT = {};
-var movers;
-var visible = false;
+var movers,
+    selectedMover = false,
+    visible = false;
 
 
 function createInputs() {
@@ -31,7 +32,7 @@ function createMovers() {
   
   for (var i = 0; i < CONFIG.numBouncyBalls; i++) {
     let mass = random(CONFIG.minMass, CONFIG.maxMass);
-    let b = new BouncyBall(random(width), random(height), mass);
+    let b = new BouncyBall(random(width), random(height), mass, mass * 20);
     movers.push(b);
   }
 }
@@ -55,12 +56,31 @@ function draw() {
     movers[i].applyForce(g);
     
     // Wind
-    if (mouseIsPressed) {
+    // Press the 'W' key to make the wind blow
+    if (keyIsDown(87)) {
       let w = new p5.Vector(CONFIG.windX, CONFIG.windY);
       movers[i].applyForce(w);
     }
     
     movers[i].update();
+    
+    // Select a mover
+    if (!selectedMover && mouseIsPressed && movers[i].selected()) {
+      selectedMover = movers[i];
+    } else {
+      if (!selectedMover) {
+        selectedMover = false;
+      }
+    }
+    
+    if (selectedMover) {
+      let mousePos = new p5.Vector(mouseX, mouseY);
+      let pmousePos = new p5.Vector(pmouseX, pmouseY);
+      let mouseVel = p5.Vector.sub(mousePos, pmousePos);
+      selectedMover.position = pmousePos;
+      selectedMover.velocity = mouseVel;
+    }
+    
     movers[i].checkEdges();
     movers[i].display();
   }
@@ -68,11 +88,12 @@ function draw() {
   // Draw text
   fill(0);
   textSize(20);
-  text('Press the mouse to make the wind blow', 10, 25);
+  text('Press W to make the wind blow', 10, 25);
 }
 
 // Press the spacebar to reset the simulation
 // Press the 'B' key to spawn a bouncy ball at mouse
+// Press the 'R' key to randomize all velocities
 // Press the 'V' key to show/hide variables
 function keyPressed() {
   // Spacebar pressed
@@ -90,6 +111,13 @@ function keyPressed() {
     let mass = random(CONFIG.minMass, CONFIG.maxMass);
     let b = new BouncyBall(mouseX, mouseY, mass);
     movers.push(b);
+  }
+  
+  // 'R' key pressed
+  if (keyCode === 82) {
+    for (var i = 0; i < movers.length; i++) {
+      movers[i].velocity = new p5.Vector(random(-2, 2), random(-2, 2));
+    }
   }
   
   // 'V' key pressed
@@ -112,6 +140,10 @@ function keyPressed() {
       })
     }
   }
+}
+
+function mouseReleased() {
+  selectedMover = false;
 }
 
 function windowResized() {

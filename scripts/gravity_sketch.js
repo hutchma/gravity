@@ -8,8 +8,9 @@ const CONFIG = {
   starMinMass: 20     // Min star mass
 };
 const INPUTS = {}, TEXT = {};
-var movers;
-var visible = false;
+var movers,
+    selectedMover = false,
+    visible = false;
 
 
 function createInputs() {
@@ -32,13 +33,13 @@ function createMovers() {
   
   for (var i = 0; i < CONFIG.numStars; i++) {
     let mass = random(CONFIG.starMinMass, CONFIG.starMaxMass);
-    let s = new Star(random(width), random(height), mass);
+    let s = new Mover(random(width), random(height), mass, mass * 2);
     movers.push(s);
   }
   
   for (var i = 0; i < CONFIG.numPlanets; i++) {
     let mass = random(CONFIG.planetMinMass, CONFIG.planetMaxMass);
-    let p = new Planet(random(width), random(height), mass);
+    let p = new Mover(random(width), random(height), mass, mass * 20);
     movers.push(p);
   }
 }
@@ -65,6 +66,24 @@ function draw() {
     }
     
     movers[i].update();
+    
+    // Select a mover
+    if (!selectedMover && mouseIsPressed && movers[i].selected()) {
+      selectedMover = movers[i];
+    } else {
+      if (!selectedMover) {
+        selectedMover = false;
+      }
+    }
+    
+    if (selectedMover) {
+      let mousePos = new p5.Vector(mouseX, mouseY);
+      let pmousePos = new p5.Vector(pmouseX, pmouseY);
+      let mouseVel = p5.Vector.sub(mousePos, pmousePos);
+      selectedMover.position = pmousePos;
+      selectedMover.velocity = mouseVel;
+    }
+    
     movers[i].checkEdges();
     movers[i].display();
   }
@@ -89,7 +108,7 @@ function keyPressed() {
   // 'P' key pressed
   if (keyCode === 80) {
     let mass = random(CONFIG.planetMinMass, CONFIG.planetMaxMass);
-    let p = new Planet(mouseX, mouseY, mass);
+    let p = new Mover(mouseX, mouseY, mass, mass * 20);
     movers.push(p);
   }
   
@@ -103,7 +122,7 @@ function keyPressed() {
   // 'S' key pressed
   if (keyCode === 83) {
     let mass = random(CONFIG.starMinMass, CONFIG.starMaxMass);
-    let s = new Star(mouseX, mouseY, mass);
+    let s = new Mover(mouseX, mouseY, mass, mass * 2);
     movers.push(s);
   }
   
@@ -127,6 +146,10 @@ function keyPressed() {
       })
     }
   }
+}
+
+function mouseReleased() {
+  selectedMover = false;
 }
 
 function windowResized() {
