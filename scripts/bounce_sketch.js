@@ -110,7 +110,7 @@ function keyPressed() {
   // 'B' key pressed
   if (keyCode === 66) {
     let mass = random(CONFIG.minMass, CONFIG.maxMass);
-    let b = new BouncyBall(mouseX, mouseY, mass);
+    let b = new BouncyBall(mouseX, mouseY, mass, mass * 20);
     movers.push(b);
   }
   
