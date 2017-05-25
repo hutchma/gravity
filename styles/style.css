@@ -97,3 +97,8 @@ footer p {
   margin: 10px auto;
   padding: 0;
 }
+
+#sketch p {
+  margin: 0;
+  padding: 0;
+}
